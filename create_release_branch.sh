@@ -8,3 +8,6 @@ git checkout -b release-$RELEASE_VERSION
 
 # Push the branch to the remote repository
 git push origin release-$RELEASE_VERSION
+
+# Checkout the main branch
+git checkout main
