@@ -53,5 +53,6 @@ incrVersion=$(incr_pom_version $RELEASE_VERSION)
  NEXT_RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
  echo $NEXT_RELEASE_VERSION
  echo $NEXT_RELEASE_VERSION > pomVersion
+ git add pomVersion
  git commit -m "update pomVersion to ${NEXT_RELEASE_VERSION}"
  git push origin main
