@@ -83,6 +83,24 @@
                             <version>${maven-scm.version}</version>
                         </dependency>
                     </dependencies>
+
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <executions>
+                        <execution>
+                            <id>create-release-branch</id>
+                            <phase>verify</phase> <!-- Choose an appropriate phase -->
+                            <goals>
+                                <goal>exec</goal>
+                            </goals>
+                            <configuration>
+                                <executable>./scripts/create-release-branch.sh</executable>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
 
                 <!-- 依赖扁平化插件 -->
@@ -101,7 +119,6 @@
                 <artifactId>flatten-maven-plugin</artifactId>
                 <configuration>
                     <updatePomFile>true</updatePomFile>
-
                     <flattenMode>bom</flattenMode>
                     <!-- 这里定义要处理的内容 -->
                     <pomElements>
