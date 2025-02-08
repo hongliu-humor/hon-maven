@@ -4,7 +4,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>hon-maven</artifactId>
-    <version>1.7</version>
+    <version>1.8-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>hon-lib-core</module>
