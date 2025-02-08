@@ -50,6 +50,8 @@ incrVersion=$(incr_pom_version $RELEASE_VERSION)
  mvn release:perform
 
 # update pomVersion file with the new version
- NEXT_RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout | sed 's/-SNAPSHOT//')
-
+ NEXT_RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout )
+ echo $NEXT_RELEASE_VERSION
  echo $NEXT_RELEASE_VERSION > pomVersion
+ git commit -m "update pomVersion to ${NEXT_RELEASE_VERSION}"
+ git push origin main
