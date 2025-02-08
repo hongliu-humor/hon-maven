@@ -25,17 +25,14 @@
     </properties>
 
     <scm>
-        <!-- 用于指定当前项目的 tag. 通常为 head, 也就是当前最新提交 -->
         <tag>1.6</tag>
-        <!-- 公开访问连接 -->
+        <!-- common link -->
         <url>https://github.com/hongliu-humor/hon-maven.git</url>
 <!--        <url>https://github.com/hongliu-humor/maven-version-release-demonstrate.git</url>-->
-        <!-- 可以读取代码的地址 -->
+        <!-- git address -->
         <connection>scm:git:https://github.com/hongliu-humor/hon-maven.git</connection>
 <!--        <connection>scm:git:https://github.com/hongliu-humor/maven-version-release-demonstrate.git</connection>-->
-        <!-- 拥有提交代码的地址-->
-        <!-- 具体可以参考 https://maven.apache.org/pom.html#scm-->
-        <!-- SCM URL 格式连接: https://maven.apache.org/scm/scm-url-format.html-->
+        <!-- commit address-->
         <developerConnection>scm:git:https://github.com/hongliu-humor/hon-maven.git</developerConnection>
     </scm>
 
@@ -55,23 +52,21 @@
                     <artifactId>maven-release-plugin</artifactId>
                     <version>${maven-release-plugin.version}</version>
                     <configuration>
-                        <!-- 是否自动修改子模块版本 -->
+                        <!-- Automatically modify submodule versions -->
                         <autoVersionSubmodules>true</autoVersionSubmodules>
-                        <!-- tag 格式-->
+                        <!-- tag -->
                         <tagNameFormat>@{version}</tagNameFormat>
-                        <!-- 不向远程提交 Tag -->
                         <remoteTagging>false</remoteTagging>
                         <scmCommentPrefix>[release]</scmCommentPrefix>
-                        <!-- 自动识别并处理 SNAPSHOT 版本依赖 -->
+                        <!-- automatically identify SNAPSHOT and processed -->
                         <autoResolveSnapshots>1</autoResolveSnapshots>
-                        <!-- 版本方案 -->
                         <!-- https://maven.apache.org/maven-release/maven-release-plugin/usage/prepare-release.html#overriding-proposed-release-and-next-development-versions -->
                         <projectVersionPolicyId>default</projectVersionPolicyId>
                         <pomFileName>pom.xml</pomFileName>
                         <preparationGoals>clean verify</preparationGoals>
                     </configuration>
                     <dependencies>
-                        <!-- git 依赖-->
+                        <!-- git dependency-->
                         <dependency>
                             <groupId>org.apache.maven.scm</groupId>
                             <artifactId>maven-scm-provider-gitexe</artifactId>
@@ -85,26 +80,9 @@
                     </dependencies>
 
                 </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>exec-maven-plugin</artifactId>
-                    <version>3.0.0</version>
-                    <executions>
-                        <execution>
-                            <id>create-release-branch</id>
-                            <phase>verify</phase> <!-- Choose an appropriate phase -->
-                            <goals>
-                                <goal>exec</goal>
-                            </goals>
-                            <configuration>
-                                <executable>./create_release_branch.sh</executable>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
 
-                <!-- 依赖扁平化插件 -->
-                <!-- 将依赖中的 ${} 替换符替换为实际版本号, 而不是保留替换符 -->
+                <!-- Depends on flattening plugins -->
+                <!-- replace ${} with the real version -->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>flatten-maven-plugin</artifactId>
@@ -120,7 +98,7 @@
                 <configuration>
                     <updatePomFile>true</updatePomFile>
                     <flattenMode>bom</flattenMode>
-                    <!-- 这里定义要处理的内容 -->
+                    <!-- content to be processed -->
                     <pomElements>
                         <dependencyManagement>resolve</dependencyManagement>
                     </pomElements>
