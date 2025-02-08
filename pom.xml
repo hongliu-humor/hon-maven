@@ -20,6 +20,120 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--  maven-release      -->
+        <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
+        <maven-flatten-plugin.version>1.6.0</maven-flatten-plugin.version>
+        <maven-scm.version>2.1.0</maven-scm.version>
     </properties>
+
+    <scm>
+        <!-- 用于指定当前项目的 tag. 通常为 head, 也就是当前最新提交 -->
+        <tag>head</tag>
+        <!-- 公开访问连接 -->
+        <url>https://github.com/hongliu-humor/hon-maven.git</url>
+<!--        <url>https://github.com/hongliu-humor/maven-version-release-demonstrate.git</url>-->
+        <!-- 可以读取代码的地址 -->
+        <connection>scm:git:https://github.com/hongliu-humor/hon-maven.git</connection>
+<!--        <connection>scm:git:https://github.com/hongliu-humor/maven-version-release-demonstrate.git</connection>-->
+        <!-- 拥有提交代码的地址-->
+        <!-- 具体可以参考 https://maven.apache.org/pom.html#scm-->
+        <!-- SCM URL 格式连接: https://maven.apache.org/scm/scm-url-format.html-->
+        <developerConnection>scm:git:https://github.com/hongliu-humor/hon-maven.git</developerConnection>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>local-repository</id>
+            <name>Local Repository</name>
+            <url>file:///${project.basedir}/.m2/repository</url>
+        </repository>
+    </distributionManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${maven-release-plugin.version}</version>
+                    <configuration>
+                        <!-- 是否自动修改子模块版本 -->
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <!-- tag 格式-->
+                        <tagNameFormat>@{version}</tagNameFormat>
+                        <!-- 不向远程提交 Tag -->
+                        <remoteTagging>false</remoteTagging>
+                        <scmCommentPrefix>[release]</scmCommentPrefix>
+                        <!-- 自动识别并处理 SNAPSHOT 版本依赖 -->
+                        <autoResolveSnapshots>1</autoResolveSnapshots>
+                        <!-- 版本方案 -->
+                        <!-- https://maven.apache.org/maven-release/maven-release-plugin/usage/prepare-release.html#overriding-proposed-release-and-next-development-versions -->
+                        <projectVersionPolicyId>default</projectVersionPolicyId>
+                        <pomFileName>pom.xml</pomFileName>
+                        <preparationGoals>clean verify</preparationGoals>
+                    </configuration>
+                    <dependencies>
+                        <!-- git 依赖-->
+                        <dependency>
+                            <groupId>org.apache.maven.scm</groupId>
+                            <artifactId>maven-scm-provider-gitexe</artifactId>
+                            <version>${maven-scm.version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.apache.maven.scm</groupId>
+                            <artifactId>maven-scm-api</artifactId>
+                            <version>${maven-scm.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <!-- 依赖扁平化插件 -->
+                <!-- 将依赖中的 ${} 替换符替换为实际版本号, 而不是保留替换符 -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>${maven-flatten-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+
+                    <flattenMode>bom</flattenMode>
+                    <!-- 这里定义要处理的内容 -->
+                    <pomElements>
+                        <dependencyManagement>resolve</dependencyManagement>
+                    </pomElements>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+    </build>
 
 </project>
