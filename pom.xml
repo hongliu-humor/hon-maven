@@ -97,7 +97,7 @@
                                 <goal>exec</goal>
                             </goals>
                             <configuration>
-                                <executable>./scripts/create-release-branch.sh</executable>
+                                <executable>./create-release-branch.sh</executable>
                             </configuration>
                         </execution>
                     </executions>
