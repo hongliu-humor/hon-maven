@@ -4,7 +4,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>hon-maven</artifactId>
-    <version>1.7-SNAPSHOT</version>
+    <version>1.7</version>
     <packaging>pom</packaging>
     <modules>
         <module>hon-lib-core</module>
@@ -26,7 +26,7 @@
 
     <scm>
         <!-- 用于指定当前项目的 tag. 通常为 head, 也就是当前最新提交 -->
-        <tag>head</tag>
+        <tag>1.6</tag>
         <!-- 公开访问连接 -->
         <url>https://github.com/hongliu-humor/hon-maven.git</url>
 <!--        <url>https://github.com/hongliu-humor/maven-version-release-demonstrate.git</url>-->
