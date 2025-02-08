@@ -4,11 +4,11 @@
     <parent>
         <groupId>org.example</groupId>
         <artifactId>hon-maven</artifactId>
-        <version> 1.11-SNAPSHOT</version>
+        <version> 1.11</version>
     </parent>
 
     <artifactId>hon-lib-user</artifactId>
-  <version> 1.11-SNAPSHOT</version>
+  <version> 1.11</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
